@@ -36,4 +36,7 @@
     padding: 20% 0;
 }
 
-
+.cabecalho a:hover {
+    background-color: white;
+    color: black;
+}
