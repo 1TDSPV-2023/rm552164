@@ -50,6 +50,13 @@ addEventListener("click", (evento)=>{
         }
     }
 
+    const usuarioLogado = {
+        nomeUsuarioLogado : userInput.value,
+        senhaUsuarioLogado : passInput.value
+    }
+
+    let usuarioValidado = {};
+
     let listaDeUsuariosRecuperada = JSON.parse(localStorage.getItem("listaUser"))
 
     if(evento.target.id == "btnSubmit"){
@@ -57,7 +64,8 @@ addEventListener("click", (evento)=>{
     try{
             listaDeUsuariosRecuperada.forEach((usuario)=>{
 
-            if(userInput.value == usuario.nomeUsuario && passInput.value == usuario.senhaUsuario){
+            if(usuarioLogado.nomeUsuarioLogado == usuario.nomeUsuarioLogado && usuarioLogado.senhaUsuarioLogado == usuario.senhaUsuarioLogado){
+            usuarioValidado = usuario;
                 throw "Usuário Validado!"
             }
         });
@@ -65,11 +73,26 @@ addEventListener("click", (evento)=>{
         throw "Usuário ou Senha inválido!"
 
     }catch(err){
+
+        const msgStatus = document.querySelector("#info");
+
         if(err == "Usuário Validado!"){
+            msgStatus.setAttribute("style", "color:#00ff00");
+            msgStatus.innerHTML = `<span><strong>O usuárioo ${usuarioValidado.nomeCompleto} realizou o login com sucesso!!</strong></span>`
+            
+            localStorage.setItem("user-validado", JSON.stringify(usuarioValidado));
+
+            let token = Math.random().toString(16).substring(2);
+            localStorage.setItem("user-token", token);
+
             // Redirect
-            window.location.href = "../sucesso.html"
+            setTimeout(()=>{
+                window.location.href = "../sucesso.html"
+            },3000);
+            
         }else{
-            console.log("Usuário ou Senha inválido!");
+            msgStatus.setAttribute("style", "color:#ff0000");
+            msgStatus.innerHTML = `<span><strong>Nome do usuário ou senha inválido...</strong></span>`
         }
     }
     }
