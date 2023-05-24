@@ -1,11 +1,20 @@
 
+// 
+
 if(localStorage.getItem("user-token") != null){
     const bemVindoEl = document.querySelector("#welcome-user");
+    const avatar = document.querySelector("#avatar");
     const botaoLogout = document.querySelector("#btn-sair");
 
     const usuarioValidado = JSON.parse(localStorage.getItem("user-validado"));
 
-    bemVindoEl.innerHTML = usuarioValidado.nomeCompleto;
+    const imgAvatar = document.querySelector("#img-avatar");
+    imgAvatar.src = usuarioValidado.avatarUsuario;
+    imgAvatar.alt = usuarioValidado.nomeCompleto;
+    imgAvatar.title = usuarioValidado.nomeUsuario;
+
+    const legendaAvatar = document.querySelector("#legenda")
+    legendaAvatar.textContent = usuarioValidado.nomeCompleto
 
     botaoLogout.addEventListener("click", ()=>{
         localStorage.removeItem("user-validado");
